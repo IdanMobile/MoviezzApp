@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MoviezzApp</string>
+    <string name="movie_image">character_image</string>
+    <string name="main_data_layout">main_data_layout</string>
+</resources>
