@@ -1,5 +1,6 @@
 package com.example.moviezzapp.ui.movies
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -50,8 +51,11 @@ class MoviesFragment : Fragment() {
         // Giving the binding access to the LocationsViewModel
         binding.viewModel = mViewModel
 
+        val orientation = resources.configuration.orientation;
+        val count: Int = if (orientation == Configuration.ORIENTATION_LANDSCAPE) 3 else 2
+
         mListView = binding.moviesListView
-        mListView.layoutManager = GridLayoutManager(context, 2)
+        mListView.layoutManager = GridLayoutManager(context, count)
         initAdapter()
 
         return binding.root
@@ -59,13 +63,13 @@ class MoviesFragment : Fragment() {
 
     private fun initAdapter() {
         val adapter = MoviesAdapter() {
-//            context?.let { context ->
+            context?.let { context ->
 //                showDetails(
 //                    context,
 //                    it.id,
 //                    DetailsTypes.TYPE_CHARACTER
 //                )
-//            }
+            }
         }
         mListView.adapter = adapter
         mViewModel.movies.observe(
