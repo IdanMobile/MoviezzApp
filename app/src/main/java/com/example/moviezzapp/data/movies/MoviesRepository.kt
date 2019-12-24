@@ -11,10 +11,9 @@ import com.example.moviezzapp.data.pagedList.PagedResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 class MoviesRepository {
-    private val DATABASE_PAGE_SIZE = 20
+    private val DATABASE_PAGE_SIZE = 50
 
     // keep the last requested page.
     // When the request is successful, increment the page number.

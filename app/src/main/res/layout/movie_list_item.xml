@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:id="@+id/movies_list_item"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="280dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movies_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="280dp">
 
     <androidx.appcompat.widget.AppCompatImageView
-            android:contentDescription="@string/movie_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:src="@tools:sample/backgrounds/scenic"
-            android:id="@+id/movie_image"/>
+        android:id="@+id/movie_image"
+        android:transitionName="posterImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/movie_image"
+        tools:src="@tools:sample/backgrounds/scenic"
+        tools:targetApi="lollipop" />
 </androidx.constraintlayout.widget.ConstraintLayout>

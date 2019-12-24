@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.moviezzapp.BuildConfig
 import com.example.moviezzapp.data.movies.MovieModel
 import com.example.moviezzapp.data.movies.MoviesResponse
+import com.example.moviezzapp.data.videos.VideoResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -17,6 +18,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Field
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import java.security.KeyManagementException
 import java.security.NoSuchAlgorithmException
@@ -24,10 +26,8 @@ import java.security.NoSuchAlgorithmException
 private const val BASE_URL = "https://api.themoviedb.org/3/"
 private const val API_KEY = "469061ddfba3ae9b4cbb413630264121"
 private const val PATH_MOVIES = "movie/"
-//private const val LANGUAGE_KEY = "&language=en-US"
-private const val PAGE_KEY = "&page=1"
 private const val TOP_RATED_PATH = "${PATH_MOVIES}top_rated"
-
+const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500/"
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -42,6 +42,10 @@ interface MoviesApiService {
     @GET("movie/{id}")
     fun getMovieByIdAsync(@Field("id") id: Int):
             Deferred<MovieModel?>
+
+    @GET("movie/{id}/videos?language=en-US")
+    fun getMovieVideoByIdAsync(@Path("id") id: Int):
+            Deferred<VideoResponse?>
 
 }
 

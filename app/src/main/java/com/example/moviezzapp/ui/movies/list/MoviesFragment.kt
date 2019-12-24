@@ -1,4 +1,4 @@
-package com.example.moviezzapp.ui.movies
+package com.example.moviezzapp.ui.movies.list
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -7,16 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.moviezzapp.R
 import com.example.moviezzapp.data.movies.MovieModel
 import com.example.moviezzapp.databinding.FragmentMoviesBinding
-import com.example.moviezzapp.ui.movies.list.MoviesAdapter
+import com.example.moviezzapp.ui.MainActivity
+import com.example.moviezzapp.ui.movies.details.DetailsFragment
 
 
 /**
@@ -24,6 +29,7 @@ import com.example.moviezzapp.ui.movies.list.MoviesAdapter
  */
 class MoviesFragment : Fragment() {
 
+    private var firstTime: Boolean = true
 //    private lateinit var mScrollListener: MyScrollListener
 
     private lateinit var mListView: RecyclerView
@@ -55,30 +61,59 @@ class MoviesFragment : Fragment() {
         val count: Int = if (orientation == Configuration.ORIENTATION_LANDSCAPE) 3 else 2
 
         mListView = binding.moviesListView
+        mListView.setHasFixedSize(true)
         mListView.layoutManager = GridLayoutManager(context, count)
         initAdapter()
+
+        (activity as MainActivity).supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(false)
+            setDisplayShowHomeEnabled(false)
+        }
 
         return binding.root
     }
 
     private fun initAdapter() {
-        val adapter = MoviesAdapter() {
-            context?.let { context ->
-//                showDetails(
-//                    context,
-//                    it.id,
-//                    DetailsTypes.TYPE_CHARACTER
-//                )
+
+        Log.d("initAdapter", "XXX");
+        val adapter = MoviesAdapter { movie, imageView ->
+            val extras = FragmentNavigatorExtras(
+                imageView to "image_view"
+            )
+            val isTablet = resources.getBoolean(R.bool.isTablet)
+            if (isTablet) { // do something
+                val fragmentDetails = activity?.supportFragmentManager?.findFragmentById(R.id.details_fragment) as DetailsFragment?
+                fragmentDetails?.updateMovie(movie.id)
+            } else { // do something else
+            Log.d("Movie: ", movie.id.toString())
+                findNavController().navigate(R.id.action_details,
+                    bundleOf("movie_id" to movie.id),
+                    NavOptions.Builder().setLaunchSingleTop(true).build(), // NavOptions
+                    extras)
             }
+
         }
+
+
         mListView.adapter = adapter
         mViewModel.movies.observe(
             this,
             Observer<PagedList<MovieModel>> {
                 Log.d("moviesLivePagedList", "observe: ${it.size}")
-                Toast.makeText(this.context, "data base has ${it.size} movies", Toast.LENGTH_LONG).show()
+//                Toast.makeText(this.context, "data base has ${it.size} movies", Toast.LENGTH_LONG).show()
                 //showEmptyList(it?.size == 0)
                 adapter.submitList(it)
+                val isTablet = resources.getBoolean(R.bool.isTablet)
+                if (isTablet && firstTime) {
+                    firstTime = false
+                    val fragmentDetails =
+                        activity?.supportFragmentManager?.findFragmentById(R.id.details_fragment) as DetailsFragment?
+                    if (it.isNotEmpty()) {
+                        it[0]?.let { m ->
+                            fragmentDetails?.updateMovie(m.id)
+                        }
+                    }
+                }
             }
             //                adapter::submitList
         )

@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class MovieModel(
     @PrimaryKey
     /** Movie Primary id **/
-    @ColumnInfo(name = "id") var id: Float,
+    @ColumnInfo(name = "id") var id: Int,
     /** Movie Popularity Rating **/
     @ColumnInfo(name = "popularity") var popularity: Float,
     @ColumnInfo(name = "vote_count") var vote_count: Float,

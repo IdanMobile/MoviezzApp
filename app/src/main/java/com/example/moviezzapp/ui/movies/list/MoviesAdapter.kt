@@ -11,17 +11,15 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.GenericTransitionOptions
-import com.bumptech.glide.TransitionOptions
 import com.bumptech.glide.request.transition.ViewPropertyTransition
 import com.example.moviezzapp.GlideApp
 import com.example.moviezzapp.R
+import com.example.moviezzapp.data.IMAGE_BASE_URL
 import com.example.moviezzapp.data.movies.MovieModel
 import kotlinx.android.synthetic.main.movie_list_item.view.*
 import kotlinx.coroutines.*
 
-val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500/"
-
-class MoviesAdapter(private val onItemClick: (MovieModel) -> Unit) :
+class MoviesAdapter(private val onItemClick: (MovieModel, ImageView) -> Unit) :
     PagedListAdapter<MovieModel, ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -44,7 +42,7 @@ class MoviesAdapter(private val onItemClick: (MovieModel) -> Unit) :
         getItem(position)?.let { model ->
             holder.bind(model)
             holder.setOnClickListener {
-                onItemClick(model)
+                onItemClick(model, holder.view.movie_image)
             }
         }
     }
@@ -76,15 +74,16 @@ class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val scaleAnimx1 = ObjectAnimator.ofFloat(view, "scaleX", 0.1f, 1f)
         scaleAnimx1.cancel()
 
-        scaleAnimx1.duration = 300
+        scaleAnimx1.duration = 100
         scaleAnimx1.start()
 
         val scaleAnimy1 = ObjectAnimator.ofFloat(view, "scaleY", 0.1f, 1f)
-        scaleAnimy1.duration = 300
+        scaleAnimy1.duration = 100
         scaleAnimy1.start()
     }
 
     fun bind(movie: MovieModel) {
+        model = movie
 
         GlideApp.with(imageView.context)
             .load(IMAGE_BASE_URL + movie.poster_path)

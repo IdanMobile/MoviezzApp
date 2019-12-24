@@ -23,12 +23,13 @@
     <data>
         <variable
                 name="viewModel"
-                type="com.example.moviezzapp.ui.movies.MoviesViewModel"/>
+                type="com.example.moviezzapp.ui.movies.list.MoviesViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+        android:background="#000000">
 
         <androidx.recyclerview.widget.RecyclerView
 

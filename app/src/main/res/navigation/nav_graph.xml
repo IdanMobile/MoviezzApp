@@ -18,30 +18,29 @@
   -->
 
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/nav_graph"
-            app:startDestination="@+id/moviesFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/moviesFragment">
 
-    <!--<fragment-->
-    <!--android:id="@+id/overviewFragment"-->
-    <!--android:name="com.example.android.marsrealestate.overview.OverviewFragment"-->
-    <!--android:label="fragment_overview"-->
-    <!--tools:layout="@layout/fragment_overview" >-->
-    <!--<action-->
-    <!--android:id="@+id/action_showDetail"-->
-    <!--app:destination="@id/detailFragment" />-->
-    <!--</fragment>-->
-
-    <!--<fragment-->
-    <!--android:id="@+id/charactersFragment"-->
-    <!--android:name="com.example.rickandmorty.ui.tabs.characters.LocationsFragment"-->
-    <!--android:label="fragment_characters"-->
-    <!--tools:layout="@layout/fragment_characters">-->
-    <!--</fragment>-->
     <fragment
-            android:id="@+id/moviesFragment"
-            android:name="com.example.moviezzapp.ui.movies.MoviesFragment"
-            android:label="fragment_movies">
+        android:id="@+id/moviesFragment"
+        android:name="com.example.moviezzapp.ui.movies.list.MoviesFragment"
+        android:label="fragment_movies"
+        tools:layout="@layout/fragment_movies">
+        <action
+            android:id="@+id/action_details"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.moviezzapp.ui.movies.details.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
     </fragment>
 
 </navigation>
